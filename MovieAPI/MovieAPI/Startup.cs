@@ -30,7 +30,7 @@ namespace MovieAPI
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddDbContext<MovieAPIContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MovieAPIContext")));
+                    options.UseSqlite(Configuration.GetConnectionString("MovieAPIContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
