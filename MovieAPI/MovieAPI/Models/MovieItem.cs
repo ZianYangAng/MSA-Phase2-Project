@@ -10,7 +10,7 @@ namespace MovieAPI.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Genre { get; set; }
-        public double Rating { get; set; }
+        public int Rating { get; set; }
         public string Description { get; set; }
         public string Director { get; set; }
         public string Url { get; set; }

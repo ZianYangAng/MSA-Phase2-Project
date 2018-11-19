@@ -8,11 +8,11 @@ namespace MovieAPI.Models
 {
     public class ReviewItem
     {
-        [Key]
-        public string Id { get; set; }
+
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Review { get; set; }
         public string Uploaded { get; set; }
-        public double Rating { get; set; }
+        public int Rating { get; set; }
     }
 }

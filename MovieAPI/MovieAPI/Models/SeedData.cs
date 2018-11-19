@@ -25,11 +25,11 @@ namespace MovieAPI.Models
                     Name = "Bryan",
                     Review = "Best movie I have ever seen",
                     Uploaded = "07-10-18 4:20T18:25:43.511Z",
-                    Rating = 5.0
+                    Rating = 5
                 };
                 List<ReviewItem> reviewItem = new List<ReviewItem>
                 {
-                    seedreview
+                    seedreview,seedreview
                 };
                 context.MovieItem.AddRange(
 
@@ -37,7 +37,7 @@ namespace MovieAPI.Models
                     {
                         Title = "Mulan",
                         Genre = "Fanatsy",
-                        Rating = 5.0,
+                        Rating = 5,
                         Description = "Mulan is based on the Chinese legend of Hua Mulan. The film's plot takes place in China during the Han dynasty, where Fa Mulan, daughter of aged warrior Fa Zhou, impersonates a man to take her father's place during a general conscription to counter a Hun invasion.",
                         Director = "Tony Bancroft",
                         Url = "https://en.wikipedia.org/wiki/Mulan_(1998_film)#/media/File:Movie_poster_mulan.JPG",
