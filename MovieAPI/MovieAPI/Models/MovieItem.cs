@@ -14,7 +14,7 @@ namespace MovieAPI.Models
         public string Description { get; set; }
         public string Director { get; set; }
         public string Url { get; set; }
-        public ReviewItem[] Reviews { get; set; }
+        public List<ReviewItem> Reviews { get; set; }
         public string Width { get; set; }
         public string Height { get; set; }
         public string Uploaded { get; set; }
