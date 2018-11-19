@@ -24,7 +24,8 @@ namespace MovieAPI.Controllers
         [HttpGet]
         public IEnumerable<MovieItem> GetMovieItem()
         {
-            return _context.MovieItem;
+            return _context.MovieItem
+                .Include(b => b.Reviews);
         }
 
         // GET: api/MovieItems/5
@@ -43,7 +44,9 @@ namespace MovieAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(movieItem);
+            var newMovieItem =  _context.MovieItem.Include(b => b.Reviews);
+
+            return Ok(newMovieItem);
         }
 
         // PUT: api/MovieItems/5
@@ -120,6 +123,19 @@ namespace MovieAPI.Controllers
         private bool MovieItemExists(int id)
         {
             return _context.MovieItem.Any(e => e.Id == id);
+        }
+
+        // GET: api/Meme/Title
+        [Route("title")]
+        [HttpGet]
+        public async Task<List<string>> GetTitle()
+        {
+            var movies = (from m in _context.MovieItem.Include(b => b.Reviews)
+                         select m.Title).Distinct();
+
+            var returned = await movies.ToListAsync();
+
+            return returned;
         }
     }
 }
