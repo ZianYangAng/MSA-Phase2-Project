@@ -65,7 +65,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
                         </div>
                         <div className="form-group">
                             <label>Director</label>
-                            <input type="text" className="form-control" id="movie-edit-genre-input" placeholder="Enter Genre"/>
+                            <input type="text" className="form-control" id="movie-edit-director-input" placeholder="Enter Genre"/>
                             <small className="form-text text-muted">Enter the director of the movie</small>
                         </div>
 
@@ -121,7 +121,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 		}
 
         const currentMovie = this.props.currentMovie
-        const url = "http://phase2apitest.azurewebsites.net/api/meme/" + currentMovie.id
+        const url = "https://moviebankapi.azurewebsites.net/api/MovieItems/" + currentMovie.id
         const updatedTitle = titleInput.value
         const updatedGenre = genreInput.value
         const updatedDescription = descriptionInput.value
@@ -133,6 +133,8 @@ export default class MovieDetail extends React.Component<IProps, IState> {
                 "genre": updatedGenre,
                 "height": currentMovie.height,
                 "id": currentMovie.id,
+                "rating": currentMovie.rating,
+                "reviews": currentMovie.reviews,
                 "title": updatedTitle,
                 "uploaded": currentMovie.uploaded,
                 "url": currentMovie.url,
