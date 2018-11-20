@@ -100,14 +100,14 @@ class App extends React.Component<{}, IState> {
 		this.setState({ open: false });
 	};
 	
-	// Change selected memovieme
+	// Change selected movie
 	private selectNewMovie(newMovie: any) {
 		this.setState({
 			currentMovie: newMovie
 		})
 	}
 
-	// GET moviess
+	// GET movies
 	private fetchMovies(title: any) {
 		let url = "https://moviebankapi.azurewebsites.net/api/MovieItems"
 		if (title !== "") {

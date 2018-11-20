@@ -139,14 +139,21 @@ namespace MovieAPI.Controllers
         // GET: api/Meme/Title
         [Route("title")]
         [HttpGet]
-        public async Task<List<string>> GetTitle()
+        public IActionResult GetTitle([FromForm] string title)
         {
             var movies = (from m in _context.MovieItem.Include(b => b.Reviews)
-                         select m.Title).Distinct();
+                          select m.Title).Distinct();
 
-            var returned = await movies.ToListAsync();
+            if (!movies.Contains(title))
+            {
+                return NotFound();
+            }
 
-            return returned;
+            var movie = from u in _context.MovieItem
+                        where u.Title == title
+                        select u;
+
+            return Ok(movie);
         }
 
         [HttpPost, Route("upload")]
