@@ -1,5 +1,6 @@
 import MediaStreamRecorder from 'msr';
 import * as React from "react";
+import MicImage from "./../microphone.png"
 
 
 interface IProps {
@@ -17,11 +18,11 @@ export default class MovieList extends React.Component<IProps, {}> {
 	public render() {
 		return (
 			<div className="container movie-list-wrapper">
-                <div className="row movie-list-heading">
+                <div className="rodhw movie-list-heading">
                     <div className="input-group">
                         <input type="text" id="search-title-textbox" className="form-control" placeholder="Search By Title" />
                         <div className="input-group-append">
-                            <div className="btn" onClick={this.searchTitleByVoice}><i className="fa fa-microphone" /></div>
+                            <div className="btn" onClick={this.searchTitleByVoice}><img src={MicImage}/></div>
                             <div className="btn btn-outline-secondary search-button" onClick = {this.searchByTitle}>Search</div>
                         </div>
                     </div>  
@@ -84,7 +85,6 @@ export default class MovieList extends React.Component<IProps, {}> {
             const mediaRecorder = new MediaStreamRecorder(stream);
             mediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
             mediaRecorder.ondataavailable = (blob: any) => {
-                // this.postAudio(blob);
                 mediaRecorder.stop()
                 fetch('https://westus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US', {
                     body: blob, // this is a .wav audio file    
@@ -113,6 +113,7 @@ export default class MovieList extends React.Component<IProps, {}> {
         function onMediaError(e: any) {
             console.error('media error', e);
         }
+
         let accessToken: any;
         fetch('https://westus.api.cognitive.microsoft.com/sts/v1.0/issueToken', {
             headers: {
@@ -131,5 +132,4 @@ export default class MovieList extends React.Component<IProps, {}> {
             console.log("Error", error)
         });    
     }
-
 }
