@@ -32,6 +32,7 @@ namespace MovieAPI.Controllers
         [HttpGet]
         public IEnumerable<MovieItem> GetMovieItem()
         {
+            Console.WriteLine("Made it");
             return _context.MovieItem
                 .Include(b => b.Reviews);
         }
@@ -258,22 +259,20 @@ namespace MovieAPI.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var movieItem = (MovieItem)from u in _context.MovieItem.Include(b => b.Reviews)
+            var movieItem = from u in _context.MovieItem.Include(b => b.Reviews)
                             where u.Id == id
                             select u;
-
+            MovieItem[] movieItems = movieItem.ToArray();
             ReviewItem reviewItem = new ReviewItem
             {
                 Name = name,
                 Review = review,
-                Rating = rating,    
+                Rating = rating,
                 Uploaded = DateTime.Now.ToString()
             };
-            List<ReviewItem> reviewItems = movieItem.Reviews;
-            reviewItems.Add(reviewItem);
-            movieItem.Reviews = reviewItems;
-            
+            Console.WriteLine(reviewItem.Id);
+            movieItems[0].Reviews.Add(reviewItem);
+           
             _context.Entry(movieItem).State = EntityState.Modified;
 
             try

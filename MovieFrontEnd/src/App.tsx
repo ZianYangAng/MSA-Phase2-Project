@@ -108,10 +108,10 @@ class App extends React.Component<{}, IState> {
 	}
 
 	// GET moviess
-	private fetchMovies(tag: any) {
-		let url = "http://phase2apitest.azurewebsites.net/api/meme"
-		if (tag !== "") {
-			url += "/tag?=" + tag
+	private fetchMovies(title: any) {
+		let url = "https://moviebankapi.azurewebsites.net/api/MovieItems"
+		if (title !== "") {
+			url += "/title?=" + title
 		}
         fetch(url, {
             method: 'GET'
