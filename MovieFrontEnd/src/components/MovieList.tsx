@@ -17,7 +17,7 @@ export default class MovieList extends React.Component<IProps, {}> {
 			<div className="container movie-list-wrapper">
                 <div className="row movie-list-heading">
                     <div className="input-group">
-                        <input type="text" id="search-tag-textbox" className="form-control" placeholder="Search By Tags" />
+                        <input type="text" id="search-tag-textbox" className="form-control" placeholder="Search By Title" />
                         <div className="input-group-append">
                             <div className="btn btn-outline-secondary search-button" onClick = {this.searchByTitle}>Search</div>
                         </div>
@@ -47,7 +47,9 @@ export default class MovieList extends React.Component<IProps, {}> {
             const movie = movieList[i]
             children.push(<td key={"id" + i}>{movie.id}</td>)
             children.push(<td key={"name" + i}>{movie.title}</td>)
-            children.push(<td key={"tags" + i}>{movie.tags}</td>)
+            children.push(<td key={"genres" + i}>{movie.genre}</td>)
+            children.push(<td key={"director" + i}>{movie.director}</td>)
+            children.push(<td key={"rating" + i}>{movie.rating}</td>)
             table.push(<tr key={i+""} id={i+""} onClick= {this.selectRow.bind(this, i)}>{children}</tr>)
         }
         return table

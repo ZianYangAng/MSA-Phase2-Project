@@ -38,7 +38,7 @@ class App extends React.Component<{}, IState> {
 			<div className="header-wrapper">
 				<div className="container header">
 					<img src={MovieLogo} height='40'/>&nbsp; Movie Bank &nbsp;
-					<div className="btn btn-primary btn-action btn-add" onClick={this.onOpenModal}>Add Meme</div>
+					<div className="btn btn-primary btn-action btn-add" onClick={this.onOpenModal}>Add Movie</div>
 				</div>
 			</div>
 			<div className="container">

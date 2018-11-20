@@ -21,14 +21,14 @@ body{
   padding-top: 10px;
 }
 
-/* Selected Meme */
-.meme-wrapper {
+/* Selected Movie */
+.movie-wrapper {
   padding-top:20px;
   padding-left: 30px;
   padding-right: 30px;
 }
 
-.meme-heading {
+.movie-heading {
   display: flex;
   align-items: left;
   justify-content: left;
@@ -36,7 +36,7 @@ body{
   font-size: 18px;
 }
 
-.meme-img {
+.movie-img {
   margin-top: 10px;
   display: flex;
   align-items: center;
@@ -45,12 +45,12 @@ body{
   overflow: hidden;
 }
 
-.meme-img img {
+.movie-img img {
   max-height: calc(100vh - 220px);
   width: 100%;
 }
 
-.meme-date {
+.movie-date {
   display: flex;
   align-items: left;
   justify-content: left;
@@ -59,7 +59,7 @@ body{
   margin-top: 0px;
 }
 
-.meme-done-button {
+.movie-done-button {
   display: flex;
   align-items: left;
   justify-content: left;
@@ -90,12 +90,12 @@ body{
   right: 0px;
 }
 
-/* Meme List */
-.meme-list-wrapper {
+/* Movie List */
+.movie-list-wrapper {
   padding-top:20px;
 }
 
-.meme-list-table {
+.movie-list-table {
   margin-top: 20px;
   height: calc(100vh - 140px);
   overflow-y: scroll;
