@@ -40,7 +40,7 @@ namespace MovieAPI.Models
                         Rating = 5,
                         Description = "Mulan is based on the Chinese legend of Hua Mulan. The film's plot takes place in China during the Han dynasty, where Fa Mulan, daughter of aged warrior Fa Zhou, impersonates a man to take her father's place during a general conscription to counter a Hun invasion.",
                         Director = "Tony Bancroft",
-                        Url = "https://en.wikipedia.org/wiki/Mulan_(1998_film)#/media/File:Movie_poster_mulan.JPG",
+                        Url = "https://movieimagesblob.blob.core.windows.net/images/809ff44a-9da5-4466-b436-ed9165c88fc7.jpg",
                         Reviews = reviewItem,
                         Width = "768",
                         Height = "432",
