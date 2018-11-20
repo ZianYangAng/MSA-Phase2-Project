@@ -93,7 +93,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 
     // DELETE movie
     private deleteMovie(id: any) {
-        const url = "http://phase2apitest.azurewebsites.net/api/meme/" + id
+        const url = "https://moviebankapi.azurewebsites.net/api/MovieItems/" + id
 
 		fetch(url, {
 			method: 'DELETE'

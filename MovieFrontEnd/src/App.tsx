@@ -154,7 +154,7 @@ class App extends React.Component<{}, IState> {
 		// const rating = ratingInput.value
 		const description = descriptionInput.value
 		const director = directorInput.value
-		const url = "http://phase2apitest.azurewebsites.net/api/meme/upload"
+		const url = "https://moviebankapi.azurewebsites.net/api/MovieItems/upload"
 
 		const formData = new FormData()
 		formData.append("Title", title)
