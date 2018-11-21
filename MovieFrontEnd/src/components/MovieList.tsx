@@ -108,7 +108,7 @@ export default class MovieList extends React.Component<IProps, {}> {
             mediaRecorder.start(3000);
         }
     
-        navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError)
+       navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError)
     
         function onMediaError(e: any) {
             console.error('media error', e);

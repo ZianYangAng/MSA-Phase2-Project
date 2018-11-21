@@ -5,13 +5,13 @@ import './App.css';
 import MovieDetail from './components/MovieDetail';
 import MovieList from './components/MovieList';
 import MovieLogo from './video.png';
+// import MovieVideo from './filmscratches.m4v';
 
 
 interface IState {
 	currentMovie: any,
 	movies: any[],
 	open: boolean,
-	openAuthenticate: boolean,
 	uploadFileList: any,
 	authenticated: boolean,
 	refCamera: any
@@ -26,7 +26,6 @@ class App extends React.Component<{}, IState> {
 			currentMovie: {"id":0, "title":"Loading ","genre":"","rating":"","description":"","director":"","url":"","uploaded":"","width":"0","height":"0"},
 			movies: [],
 			open: false,
-			openAuthenticate: false,
 			predictionResult: null,
 			refCamera: React.createRef(),
 			uploadFileList: null
@@ -55,6 +54,9 @@ class App extends React.Component<{}, IState> {
 					:""}
 				</div>
 			</div>
+			{/* <video autoPlay loop muted id="video">
+			<source src={MovieVideo} type="video/mp4"/>
+			</video> */}
 			<div className="container">
 				<div className="row">
 					<div className="col-7">
@@ -108,7 +110,7 @@ class App extends React.Component<{}, IState> {
 						ref={this.state.refCamera}
 						/>
 						<div className="row nav-row">
-							<div className="btn btn-primary bottom-button" onClick={this.authenticate}>Login</div>
+							<div className="btn btn-primary bottom-button" onClick={this.authenticate}>Authenticate</div>
 						</div>
 					</div>
 				:""}

@@ -23,7 +23,6 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 
 	public render() {
         const currentMovie = this.props.currentMovie
-        console.log(this.props.authentication)
         const { open } = this.state;
 		return (
 			<div className="container movie-wrapper">
