@@ -151,7 +151,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 				// Error State
 				alert(response.statusText + " " + url)
 			} else {
-				location.reload()
+                location.reload()
 			}
 		  })
     }

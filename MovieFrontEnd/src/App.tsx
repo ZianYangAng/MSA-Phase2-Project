@@ -1,11 +1,10 @@
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
-import * as Webcam from "react-webcam";
 import './App.css';
 import MovieDetail from './components/MovieDetail';
 import MovieList from './components/MovieList';
 import MovieLogo from './video.png';
-// import MovieVideo from './filmscratches.m4v';
+import  FacebookLogin  from 'react-facebook-login'
 
 
 interface IState {
@@ -14,8 +13,8 @@ interface IState {
 	open: boolean,
 	uploadFileList: any,
 	authenticated: boolean,
-	refCamera: any
-	predictionResult:any
+	userName:any,
+	userID:any,
 }
 
 class App extends React.Component<{}, IState> {
@@ -26,9 +25,9 @@ class App extends React.Component<{}, IState> {
 			currentMovie: {"id":0, "title":"Loading ","genre":"","rating":"","description":"","director":"","url":"","uploaded":"","width":"0","height":"0"},
 			movies: [],
 			open: false,
-			predictionResult: null,
-			refCamera: React.createRef(),
-			uploadFileList: null
+			uploadFileList: null,
+			userName: '',
+			userID:null
 		}     
 		
 		this.fetchMovies("")
@@ -36,7 +35,6 @@ class App extends React.Component<{}, IState> {
 		this.handleFileUpload = this.handleFileUpload.bind(this)
 		this.fetchMovies = this.fetchMovies.bind(this)
 		this.uploadMovie = this.uploadMovie.bind(this)
-		this.authenticate = this.authenticate.bind(this)
 	}
 
 	public render() {
@@ -47,16 +45,21 @@ class App extends React.Component<{}, IState> {
 				<div className="container header">
 					<img src={MovieLogo} height='40'/>&nbsp; Movie Bank &nbsp;
 					{(this.state.authenticated) ?
-					<div className="btn btn-primary btn-action btn-add" onClick={this.onOpenModal}>Add Movie</div>
+						<div className="btn btn-primary btn-action btn-add" onClick={this.onOpenModal}>Add Movie</div>
 					:""}
 					{(!this.state.authenticated) ?
-					<div className="btn btn-primary btn-action btn-add" onClick={this.onOpenModal}>Login</div>
+					<div className = "btn-add">
+					<FacebookLogin
+					cssClass="btnFacebook"
+					appId="208193176783412"
+					autoLoad={true}
+					fields="name,email,picture"
+					onClick={this.componentClicked}
+					callback={this.responseFacebook} />
+					</div>
 					:""}
 				</div>
 			</div>
-			{/* <video autoPlay loop muted id="video">
-			<source src={MovieVideo} type="video/mp4"/>
-			</video> */}
 			<div className="container">
 				<div className="row">
 					<div className="col-7">
@@ -67,8 +70,7 @@ class App extends React.Component<{}, IState> {
 					</div>
 				</div>
 			</div>
-			<Modal open={open} onClose={this.onCloseModal || open === false}>
-			{(this.state.authenticated) ?
+			<Modal open={open} onClose={this.onCloseModal}>
 				<form>
 					<div className="form-group">
 						<label>Movie Title</label>
@@ -101,19 +103,6 @@ class App extends React.Component<{}, IState> {
 					</div>
 					<button type="button" className="btn" onClick={this.uploadMovie}>Upload</button>
 				</form>
-				:""}
-				{(!this.state.authenticated) ?
-					<div>
-						<Webcam
-						audio={false}
-						screenshotFormat="image/jpeg"
-						ref={this.state.refCamera}
-						/>
-						<div className="row nav-row">
-							<div className="btn btn-primary bottom-button" onClick={this.authenticate}>Authenticate</div>
-						</div>
-					</div>
-				:""}
 			</Modal>
 		</div>
 		);
@@ -133,6 +122,20 @@ class App extends React.Component<{}, IState> {
 	private selectNewMovie(newMovie: any) {
 		this.setState({
 			currentMovie: newMovie
+		})
+	}
+
+
+	private componentClicked = () => {
+		console.log("clicked")
+	}
+
+	private responseFacebook = (response:any) => {
+		console.log(response)
+		this.setState({
+			userID: response.userID,
+			userName: response.name,
+			authenticated : true
 		})
 	}
 
@@ -205,50 +208,6 @@ class App extends React.Component<{}, IState> {
 				location.reload()
 			}
 		  })
-	}
-
-
-	// Authenticate
-	private authenticate() { 
-		const screenshot = this.state.refCamera.current.getScreenshot();
-		this.getFaceRecognitionResult(screenshot);
-	}
-
-	private getFaceRecognitionResult(image: string) {
-		const url = "https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/Prediction/fd596448-62e6-4381-89c6-fe17b8308d93/image?iterationId=b1773e0f-c64f-461a-beba-42e69cb5dbc9"
-		if (image === null) {
-			return;
-		}
-		const base64 = require('base64-js');
-		const base64content = image.split(";")[1].split(",")[1]
-		const byteArray = base64.toByteArray(base64content);
-		fetch(url, {
-			body: byteArray,
-			headers: {
-				'cache-control': 'no-cache', 'Prediction-Key': '1aa1ecbb127f42a48f9f40933cac1dc7', 'Content-Type': 'application/octet-stream'
-			},
-			method: 'POST'
-		})
-			.then((response: any) => {
-				if (!response.ok) {
-					// Error State
-					alert(response.statusText)
-				} else {
-					response.json().then((json: any) => {
-						console.log(json.predictions[0])
-						this.setState({predictionResult: json.predictions[0] })
-						if (this.state.predictionResult.probability > 0.7) {
-							this.setState({
-								authenticated: true,
-								open:false
-							})
-							console.log()
-						} else {
-							this.setState({authenticated: false})
-						}
-					})
-				}
-			})
 	}
 
 }

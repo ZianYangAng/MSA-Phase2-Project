@@ -101,6 +101,7 @@ export default class MovieList extends React.Component<IProps, {}> {
                     console.log(res.DisplayText)
                     const textBox = document.getElementById("search-title-textbox") as HTMLInputElement
                     textBox.value = (res.DisplayText as string).slice(0, -1)
+
                 }).catch((error) => {
                     console.log("Error", error)
                 });
@@ -109,6 +110,8 @@ export default class MovieList extends React.Component<IProps, {}> {
         }
     
        navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError)
+
+       
     
         function onMediaError(e: any) {
             console.error('media error', e);

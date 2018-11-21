@@ -70,8 +70,8 @@ body{
 
 .btn-action{
   font-family: Helvetica;
-  background-color:#f5a623;
-  border-color: #f5a623;
+  background-color:#020202;
+  border-color: #000000;
   height:40px;
   margin-right: 10px;
   font-size:18px;
@@ -81,8 +81,8 @@ body{
 }
 
 .btn-action:hover {
-  background-color: #d18c1b;
-  border-color: #d18c1b;
+  background-color: #4d4d4d;
+  border-color: #272727;
 }
 
 .btn-add {
@@ -103,16 +103,25 @@ body{
 }
 
 .search-button:hover {
-  background-color: #d18c1b;
-  border-color: #d18c1b;
+  background-color: #383838;
+  border-color: #1d1d1d;
   color: white;
 }
 
-#video{
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%; 
-  min-height: 100%;
+
+.btnFacebook { 
+  width: 165px;
+  height:35px;  
+  border-radius: 4px;
+  background: #3b5998;
+  color:white;
+  border:0px transparent;  
+  text-align: center;
+  margin:5px;
+  display: inline-block;
 }
 
+.btnFacebook:hover {
+  background: #3b5998;
+  opacity: 0.6;
+}
