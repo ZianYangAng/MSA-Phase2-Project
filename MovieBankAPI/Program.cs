@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MovieAPI.Models;
+using MovieBankAPI.Models;
 
-namespace MovieAPI
+namespace MovieBankAPI
 {
     public class Program
     {
@@ -25,7 +25,7 @@ namespace MovieAPI
 
                 try
                 {
-                    var context = services.GetRequiredService<MovieAPIContext>();
+                    var context = services.GetRequiredService<MovieBankAPIContext>();
                     context.Database.Migrate();
                     SeedData.Initialize(services);
                 }
@@ -42,5 +42,5 @@ namespace MovieAPI
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
-    }   
+    }
 }

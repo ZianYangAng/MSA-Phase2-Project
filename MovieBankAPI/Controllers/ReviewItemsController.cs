@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieAPI.Models;
+using MovieBankAPI.Models;
 
-namespace MovieAPI.Controllers
+namespace MovieBankAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ReviewItemsController : ControllerBase
     {
-        private readonly MovieAPIContext _context;
+        private readonly MovieBankAPIContext _context;
 
-        public ReviewItemsController(MovieAPIContext context)
+        public ReviewItemsController(MovieBankAPIContext context)
         {
             _context = context;
         }

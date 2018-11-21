@@ -11,10 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
-using MovieAPI.Models;
+using MovieBankAPI.Models;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace MovieAPI
+namespace MovieBankAPI
 {
     public class Startup
     {
@@ -30,8 +30,9 @@ namespace MovieAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<MovieAPIContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("MovieAPIContext")));
+            services.AddDbContext<MovieBankAPIContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("MovieBankAPIContext")));
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
@@ -64,6 +65,7 @@ namespace MovieAPI
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.RoutePrefix = string.Empty; // launch swagger from root
             });
+
         }
     }
 }

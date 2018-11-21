@@ -1,11 +1,11 @@
-﻿using Microsoft.Net.Http.Headers;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using Microsoft.Net.Http.Headers;
 
-namespace MovieAPI.Helpers
+namespace MovieBankAPI.Helpers
 {
     public static class MultipartRequestHelper
     {

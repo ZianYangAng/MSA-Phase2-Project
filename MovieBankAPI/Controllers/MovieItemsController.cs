@@ -9,32 +9,31 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
-using MovieAPI.Helpers;
-using MovieAPI.Models;
+using MovieBankAPI.Helpers;
+using MovieBankAPI.Models;
 
-namespace MovieAPI.Controllers
+namespace MovieBankAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MovieItemsController : ControllerBase
     {
-        private readonly MovieAPIContext _context;
+        private readonly MovieBankAPIContext _context;
 
         private IConfiguration _configuration;
 
-        public MovieItemsController(MovieAPIContext context, IConfiguration configuration)
+
+        public MovieItemsController(MovieBankAPIContext context, IConfiguration configuration)
         {
             _context = context;
-            _configuration = configuration; 
+            _configuration = configuration;
         }
 
         // GET: api/MovieItems
         [HttpGet]
         public IEnumerable<MovieItem> GetMovieItem()
         {
-            Console.WriteLine("Made it");
-            return _context.MovieItem
-                .Include(b => b.Reviews);
+            return _context.MovieItem.Include( m => m.Reviews);
         }
 
         // GET: api/MovieItems/5
@@ -53,11 +52,7 @@ namespace MovieAPI.Controllers
                 return NotFound();
             }
 
-            var newMovieItem = from u in _context.MovieItem.Include(b => b.Reviews)
-                               where u.Id == id
-                               select u;
-
-            return Ok(newMovieItem);
+            return Ok(movieItem);
         }
 
         // PUT: api/MovieItems/5
@@ -131,33 +126,28 @@ namespace MovieAPI.Controllers
             return Ok(movieItem);
         }
 
-        private bool MovieItemExists(int id)
-        {
-            return _context.MovieItem.Any(e => e.Id == id);
-        }
+        // GET: api/Movie/Title
 
-        // GET: api/Meme/Title
-        [Route("title")]
         [HttpGet]
-        public IActionResult GetTitle([FromForm] string title)
+        [Route("title")]
+        public async Task<List<MovieItem>> GetTagsItem([FromQuery] string title)
         {
-            var movies = (from m in _context.MovieItem.Include(b => b.Reviews)
-                          select m.Title).Distinct();
+            var movies = from m in _context.MovieItem
+                        select m; //get all the movies
 
-            if (!movies.Contains(title))
+
+            if (!String.IsNullOrEmpty(title)) //make sure user gave a tag to search
             {
-                return NotFound();
+                movies = movies.Where(s => s.Title.ToLower().Equals(title.ToLower())); // find the entries with the search title and reassign
             }
 
-            var movie = from u in _context.MovieItem
-                        where u.Title == title
-                        select u;
+            var returned = await movies.ToListAsync(); //return the movies
 
-            return Ok(movie);
+            return returned;
         }
 
         [HttpPost, Route("upload")]
-        public async Task<IActionResult> UploadFile([FromForm]MovieImageItem movie)
+        public async Task<IActionResult> UploadFile([FromForm]MovieItemImage movie)
         {
             if (!MultipartRequestHelper.IsMultipartContentType(Request.ContentType))
             {
@@ -177,9 +167,11 @@ namespace MovieAPI.Controllers
 
                     MovieItem movieItem = new MovieItem();
                     movieItem.Title = movie.Title;
+                    movieItem.Genre = movie.Genre;
+                    movieItem.Rating = movie.Rating;
                     movieItem.Description = movie.Description;
                     movieItem.Director = movie.Director;
-                    movieItem.Genre = movie.Genre;
+                    movieItem.UID = movie.UID;
 
                     System.Drawing.Image image = System.Drawing.Image.FromStream(stream);
                     movieItem.Height = image.Height.ToString();
@@ -259,46 +251,9 @@ namespace MovieAPI.Controllers
             }
         }
 
-        [HttpPut, Route("Review")]
-        public async Task<IActionResult> Review([FromRoute] int id, [FromRoute] string name, [FromRoute] string review, [FromRoute] int rating)
+        private bool MovieItemExists(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var movieItem = from u in _context.MovieItem.Include(b => b.Reviews)
-                            where u.Id == id
-                            select u;
-            MovieItem[] movieItems = movieItem.ToArray();
-            ReviewItem reviewItem = new ReviewItem
-            {
-                Name = name,
-                Review = review,
-                Rating = rating,
-                Uploaded = DateTime.Now.ToString()
-            };
-            Console.WriteLine(reviewItem.Id);
-            movieItems[0].Reviews.Add(reviewItem);
-           
-            _context.Entry(movieItem).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MovieItemExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return _context.MovieItem.Any(e => e.Id == id);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MovieAPI.Migrations
+namespace MovieBankAPI.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -14,13 +14,14 @@ namespace MovieAPI.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Title = table.Column<string>(nullable: true),
                     Genre = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false),
+                    Rating = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Director = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
                     Width = table.Column<string>(nullable: true),
                     Height = table.Column<string>(nullable: true),
-                    Uploaded = table.Column<string>(nullable: true)
+                    Uploaded = table.Column<string>(nullable: true),
+                    UID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,28 +32,30 @@ namespace MovieAPI.Migrations
                 name: "ReviewItem",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RevRefID = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Review = table.Column<string>(nullable: true),
                     Uploaded = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false),
-                    MovieItemId = table.Column<int>(nullable: true)
+                    Rating = table.Column<int>(nullable: false),
+                    UID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReviewItem", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReviewItem_MovieItem_MovieItemId",
-                        column: x => x.MovieItemId,
+                        name: "FK_ReviewItem_MovieItem_RevRefID",
+                        column: x => x.RevRefID,
                         principalTable: "MovieItem",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReviewItem_MovieItemId",
+                name: "IX_ReviewItem_RevRefID",
                 table: "ReviewItem",
-                column: "MovieItemId");
+                column: "RevRefID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
