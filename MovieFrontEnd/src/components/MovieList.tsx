@@ -18,7 +18,7 @@ export default class MovieList extends React.Component<IProps, {}> {
 	public render() {
 		return (
 			<div className="container movie-list-wrapper">
-                <div className="rodhw movie-list-heading">
+                <div className="row movie-list-heading">
                     <div className="input-group">
                         <input type="text" id="search-title-textbox" className="form-control" placeholder="Search By Title" />
                         <div className="input-group-append">

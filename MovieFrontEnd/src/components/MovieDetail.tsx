@@ -3,6 +3,7 @@ import Modal from 'react-responsive-modal';
 
 interface IProps {
     currentMovie: any
+    authentication:any
 }
 
 interface IState {
@@ -22,6 +23,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 
 	public render() {
         const currentMovie = this.props.currentMovie
+        console.log(this.props.authentication)
         const { open } = this.state;
 		return (
 			<div className="container movie-wrapper">
@@ -40,11 +42,14 @@ export default class MovieDetail extends React.Component<IProps, IState> {
                 <div className="row movie-description">
                     {currentMovie.description}
                 </div>
-                
                 <div className="row movie-done-button">
                     <div className="btn btn-primary btn-action" onClick={this.downloadMovie.bind(this, currentMovie.url)}>Download </div>
+                    {(this.props.authentication)?
+                    <div>
                     <div className="btn btn-primary btn-action" onClick={this.onOpenModal}>Edit </div>
                     <div className="btn btn-primary btn-action" onClick={this.deleteMovie.bind(this, currentMovie.id)}>Delete </div>
+                    </div>
+                    :""}
                 </div>
                 <Modal open={open} onClose={this.onCloseModal}>
                     <form>
@@ -68,7 +73,6 @@ export default class MovieDetail extends React.Component<IProps, IState> {
                             <input type="text" className="form-control" id="movie-edit-director-input" placeholder="Enter Genre"/>
                             <small className="form-text text-muted">Enter the director of the movie</small>
                         </div>
-
                         <button type="button" className="btn" onClick={this.updateMovie}>Save</button>
                     </form>
                 </Modal>
