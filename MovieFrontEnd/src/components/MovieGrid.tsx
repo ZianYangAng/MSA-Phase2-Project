@@ -47,8 +47,8 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                         <ListSubheader component="div">Welcome to Movie Bank</ListSubheader>
                     </GridListTile>
                     :""}
-                    {movies.map(movie => (
-                            <GridListTile key={movie.id} onClick={this.selectGridTile.bind(this)} className="grid">
+                    {movies.map(movie => (   
+                            <GridListTile key={movie.id} onClick={this.selectGridTile.bind(this, movie.id)} className="grid">
                                 <img src={movie.url}/>
                                 <GridListTileBar 
                                 title={movie.title}
@@ -68,8 +68,14 @@ export default class MovieGrid extends React.Component<IProps, {}> {
     }
 
     // Movie selection handler to display selected movie in details component
-    private selectGridTile(index: any) {
-        const selectedMovie = this.props.movies[index]
+    private selectGridTile(iD: any) {
+        const { movies } = this.props
+        let selectedMovie:any
+        for (let i = 0; i< movies.length; i++ ){
+            if(movies[i].id===iD){
+                selectedMovie = movies[i];
+            }
+        }
         if (selectedMovie != null) {
             this.props.selectNewMovie(selectedMovie)
         }
@@ -106,7 +112,6 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                 }).then((res:any) => {
                     return res.json()
                 }).then((res: any) => {
-                    console.log(res.DisplayText)
                     const textBox = document.getElementById("search-title-textbox") as HTMLInputElement
                     textBox.value = (res.DisplayText as string).slice(0, -1)
 

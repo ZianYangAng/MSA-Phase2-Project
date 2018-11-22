@@ -41,11 +41,11 @@ export default class MovieCard extends React.Component<IProps, IState> {
                 title={currentMovie.title}
                 subheader={
                 <div>
-                    <span>{currentMovie.genre}</span>
-                    <br/>
                     <span>Director: {currentMovie.director}</span>
                     <br/>
-                    <span>{currentMovie.uploaded}</span>
+                    <span>Genre: {currentMovie.genre}</span>
+                    <br/>
+                    <span>Uploaded: {currentMovie.uploaded}</span>
                 </div>
                 }
                 />
@@ -70,12 +70,15 @@ export default class MovieCard extends React.Component<IProps, IState> {
                     </IconButton>
                     </div>
                     :""}
-                    <IconButton aria-label="review">
+                    <IconButton 
+                    aria-label="review"
+                    style={{marginLeft: 'auto',marginRight: -8}}
+                    >
                         <img src={Reviews}/>
                     </IconButton>
                 </CardActions>
                 <Collapse in={this.state.expand} timeout="auto" unmountOnExit>
-                
+                        
                 </Collapse>
             </Card>
         );
