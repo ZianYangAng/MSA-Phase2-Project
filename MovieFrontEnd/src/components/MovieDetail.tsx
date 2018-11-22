@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal';
 
 interface IProps {
     currentMovie: any
-    authentication:any
+    userID: any
 }
 
 interface IState {
@@ -17,12 +17,13 @@ export default class MovieDetail extends React.Component<IProps, IState> {
         this.state = {
             open: false
         }
-
+        
         this.updateMovie = this.updateMovie.bind(this)
     }
 
 	public render() {
         const currentMovie = this.props.currentMovie
+        console.log(currentMovie.uid)
         const { open } = this.state;
 		return (
 			<div className="container movie-wrapper">
@@ -43,7 +44,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
                 </div>
                 <div className="row movie-done-button">
                     <div className="btn btn-primary btn-action" onClick={this.downloadMovie.bind(this, currentMovie.url)}>Download </div>
-                    {(this.props.authentication)?
+                    {(this.props.userID === currentMovie.uid)?
                     <div>
                     <div className="btn btn-primary btn-action" onClick={this.onOpenModal}>Edit </div>
                     <div className="btn btn-primary btn-action" onClick={this.deleteMovie.bind(this, currentMovie.id)}>Delete </div>
@@ -64,12 +65,12 @@ export default class MovieDetail extends React.Component<IProps, IState> {
                         </div>
                         <div className="form-group">
                             <label>Description</label>
-                            <input type="text" className="form-control" id="movie-edit-description-input" placeholder="Enter Genre"/>
+                            <input type="text" className="form-control" id="movie-edit-description-input" placeholder="Enter Description"/>
                             <small className="form-text text-muted">Give a small description of the movie</small>
                         </div>
                         <div className="form-group">
                             <label>Director</label>
-                            <input type="text" className="form-control" id="movie-edit-director-input" placeholder="Enter Genre"/>
+                            <input type="text" className="form-control" id="movie-edit-director-input" placeholder="Enter Director"/>
                             <small className="form-text text-muted">Enter the director of the movie</small>
                         </div>
                         <button type="button" className="btn" onClick={this.updateMovie}>Save</button>
@@ -114,6 +115,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 
     // PUT movie
     private updateMovie(){
+        console.log("pressed")
         const titleInput = document.getElementById("movie-edit-title-input") as HTMLInputElement
         const genreInput = document.getElementById("movie-edit-genre-input") as HTMLInputElement
         const descriptionInput = document.getElementById("movie-edit-description-input") as HTMLInputElement
@@ -123,30 +125,28 @@ export default class MovieDetail extends React.Component<IProps, IState> {
 			return;
 		}
 
+        console.log("hello")
         const currentMovie = this.props.currentMovie
         const url = "https://moviebankapi.azurewebsites.net/api/MovieItems/" + currentMovie.id
         const updatedTitle = titleInput.value
         const updatedGenre = genreInput.value
         const updatedDescription = descriptionInput.value
         const updatedDirector = directorInput.value
+
+        const formData = new FormData()
+        formData.append("title",updatedTitle)
+        formData.append("genre", updatedGenre)
+        formData.append("rating", currentMovie.rating)
+        formData.append("description", updatedDescription)
+        formData.append("director", updatedDirector)
+
 		fetch(url, {
-			body: JSON.stringify({
-                "description": updatedDescription,
-                "director":updatedDirector,
-                "genre": updatedGenre,
-                "height": currentMovie.height,
-                "id": currentMovie.id,
-                "rating": currentMovie.rating,
-                "reviews": currentMovie.reviews,
-                "title": updatedTitle,
-                "uploaded": currentMovie.uploaded,
-                "url": currentMovie.url,
-                "width": currentMovie.width
-            }),
-			headers: {'cache-control': 'no-cache','Content-Type': 'application/json'},
+			body: formData,
+			headers: {'cache-control': 'no-cache', 'Content-Type':'multipart/form-data'},
 			method: 'PUT'
 		})
         .then((response : any) => {
+            console.log(response)
 			if (!response.ok) {
 				// Error State
 				alert(response.statusText + " " + url)

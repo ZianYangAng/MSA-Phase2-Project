@@ -1,10 +1,11 @@
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
 import './App.css';
-import MovieDetail from './components/MovieDetail';
-import MovieList from './components/MovieList';
+// import MovieDetail from './components/MovieDetail';
+// import MovieList from './components/MovieList';
 import MovieLogo from './video.png';
 import  FacebookLogin  from 'react-facebook-login'
+import MovieGrid from './components/MovieGrid'
 
 
 interface IState {
@@ -61,21 +62,28 @@ class App extends React.Component<{}, IState> {
 				</div>
 			</div>
 			<div className="container">
-				<div className="row">
+				{/* <div className="row">
 					<div className="col-7">
-						<MovieDetail currentMovie={this.state.currentMovie} authentication={this.state.authenticated}/>
+						<MovieDetail currentMovie={this.state.currentMovie} userID={this.state.userID}/>
 					</div>
 					<div className="col-5">
 						<MovieList movies={this.state.movies} selectNewMovie={this.selectNewMovie} searchByTitle={this.fetchMovies}/>
 					</div>
-				</div>
+				</div> */}
+				<MovieGrid 
+					movies={this.state.movies} 
+					selectNewMovie={this.selectNewMovie} 
+					searchByTitle={this.fetchMovies} 
+					userName={this.state.userName}
+					authenticated={this.state.authenticated}
+					/>
 			</div>
 			<Modal open={open} onClose={this.onCloseModal}>
 				<form>
 					<div className="form-group">
 						<label>Movie Title</label>
 						<input type="text" className="form-control" id="movie-title-input" placeholder="Enter Title" />
-						<small className="form-text text-muted">You can edit any movie later</small>
+						<small className="form-text text-muted">Titles can be used to search</small>
 					</div>
 					<div className="form-group">
 						<label>Genre</label>
@@ -84,7 +92,7 @@ class App extends React.Component<{}, IState> {
 					</div>
 					<div className="form-group">
 						<label>Rating</label>
-						<input type="number" className="form-control" id="movie-rating-input" placeholder="Enter Rating" />
+						<input type="number" className="form-control" id="movie-rating-input" placeholder="Enter Rating" min="1" max="5"/>
 						<small className="form-text text-muted">Ratings are out of 5</small>
 					</div>
 					<div className="form-group">
@@ -141,9 +149,9 @@ class App extends React.Component<{}, IState> {
 
 	// GET movies
 	private fetchMovies(title: any) {
-		let url = "https://moviebankapi.azurewebsites.net/api/MovieItems"
+		let url = "https://movieapi.azurewebsites.net/api/MovieItems"
 		if (title !== "") {
-			url += "/title?=" + title
+			url += "/title?title=" + title
 		}
         fetch(url, {
             method: 'GET'
@@ -154,6 +162,7 @@ class App extends React.Component<{}, IState> {
 			if (currentMovie === undefined) {
 				currentMovie = {"id":0, "title":"No movies :(","genre":"","rating":"","description":"","director":"","url":"","uploaded":"","width":"0","height":"0"}
 			}
+			console.log(currentMovie)
 			this.setState({
 				currentMovie,
 				movies: json
@@ -183,16 +192,18 @@ class App extends React.Component<{}, IState> {
 
 		const title = titleInput.value
 		const genre = genreInput.value
-		// const rating = ratingInput.value
+		const rating = ratingInput.value
 		const description = descriptionInput.value
 		const director = directorInput.value
-		const url = "https://moviebankapi.azurewebsites.net/api/MovieItems/upload"
+		const url = "https://movieapi.azurewebsites.net/api/MovieItems/upload"
 
 		const formData = new FormData()
 		formData.append("Title", title)
 		formData.append("Genre", genre)
+		formData.append("Rating",rating)
 		formData.append("Description", description)
 		formData.append("Director", director)
+		formData.append("UID", this.state.userID)
 		formData.append("image", imageFile)
 
 		fetch(url, {
@@ -209,7 +220,6 @@ class App extends React.Component<{}, IState> {
 			}
 		  })
 	}
-
 }
 
 export default App;
