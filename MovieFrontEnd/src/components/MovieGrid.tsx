@@ -5,7 +5,6 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-// import IconButton from '@material-ui/core/IconButton';
 
 
 interface IProps {
@@ -37,7 +36,7 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                         </div>
                     </div>  
                 </div>
-                <GridList cellHeight={190}>
+                <GridList cellHeight={300}>
                     {(authenticated) ?
                     <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
                         <ListSubheader component="div">Welcome {userName}!</ListSubheader>

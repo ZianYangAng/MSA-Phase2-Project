@@ -6,6 +6,7 @@ import './App.css';
 import MovieLogo from './video.png';
 import  FacebookLogin  from 'react-facebook-login'
 import MovieGrid from './components/MovieGrid'
+import MovieCard from './components/MovieCard'
 
 
 interface IState {
@@ -16,6 +17,7 @@ interface IState {
 	authenticated: boolean,
 	userName:any,
 	userID:any,
+	
 }
 
 class App extends React.Component<{}, IState> {
@@ -70,13 +72,20 @@ class App extends React.Component<{}, IState> {
 						<MovieList movies={this.state.movies} selectNewMovie={this.selectNewMovie} searchByTitle={this.fetchMovies}/>
 					</div>
 				</div> */}
+				<div className="row">
+				<div className="col-7">
 				<MovieGrid 
 					movies={this.state.movies} 
 					selectNewMovie={this.selectNewMovie} 
 					searchByTitle={this.fetchMovies} 
 					userName={this.state.userName}
 					authenticated={this.state.authenticated}
-					/>
+				/>
+				</div>
+				<div className="col-5">
+				<MovieCard currentMovie={this.state.currentMovie} userID={this.state.userID}/>
+				</div>
+				</div>
 			</div>
 			<Modal open={open} onClose={this.onCloseModal}>
 				<form>
