@@ -17,7 +17,7 @@ interface IState {
 	authenticated: boolean,
 	userName:any,
 	userID:any,
-	
+	reviews: any[]
 }
 
 class App extends React.Component<{}, IState> {
@@ -30,7 +30,8 @@ class App extends React.Component<{}, IState> {
 			open: false,
 			uploadFileList: null,
 			userName: '',
-			userID:null
+			userID:null,
+			reviews: []
 		}     
 		
 		this.fetchMovies("")
@@ -38,6 +39,7 @@ class App extends React.Component<{}, IState> {
 		this.handleFileUpload = this.handleFileUpload.bind(this)
 		this.fetchMovies = this.fetchMovies.bind(this)
 		this.uploadMovie = this.uploadMovie.bind(this)
+		this.fetchReviews = this.fetchReviews.bind(this)
 	}
 
 	public render() {
@@ -83,7 +85,7 @@ class App extends React.Component<{}, IState> {
 				/>
 				</div>
 				<div className="col-5">
-				<MovieCard currentMovie={this.state.currentMovie} userID={this.state.userID}/>
+				<MovieCard currentMovie={this.state.currentMovie} userID={this.state.userID} reviews={this.state.reviews}/>
 				</div>
 				</div>
 			</div>
@@ -138,7 +140,8 @@ class App extends React.Component<{}, IState> {
 	// Change selected movie
 	private selectNewMovie(newMovie: any) {
 		this.setState({
-			currentMovie: newMovie
+			currentMovie: newMovie,
+			reviews: newMovie.reviews
 		})
 	}
 
@@ -175,6 +178,21 @@ class App extends React.Component<{}, IState> {
 			this.setState({
 				currentMovie,
 				movies: json
+			})
+			this.fetchReviews(this.state.currentMovie.id)
+        });
+	}
+
+	private fetchReviews(iD: any) {
+		console.log(iD)
+		let url = "https://movieapi.azurewebsites.net/api/ReviewItems/revID?revID=" + iD
+        fetch(url, {
+            method: 'GET'
+        })
+        .then(res => res.json())
+        .then(json => {
+			this.setState({
+				reviews: json
 			})
         });
 	}

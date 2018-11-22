@@ -13,14 +13,16 @@ import { Typography, IconButton } from '../../node_modules/@material-ui/core';
 interface IProps {
     currentMovie: any
     userID: any
+    reviews: any[]
 }
 
 interface IState {
     clicked:boolean
     expand:boolean
 }
-export default class MovieCard extends React.Component<IProps, IState> {
 
+
+export default class MovieCard extends React.Component<IProps, IState> {
     public constructor(props :any){
         super(props)
         this.state = {
@@ -31,10 +33,9 @@ export default class MovieCard extends React.Component<IProps, IState> {
 
     public render() {
         const { currentMovie } = this.props
-        let reviews: any[]
-        reviews = currentMovie.reviews
-        console.log(reviews)
-        console.log(currentMovie.url)
+        // let reviews: any[]
+        // reviews = currentMovie.reviews
+        // console.log(reviews)
         return(
             <Card>
                 <CardHeader 
@@ -73,16 +74,23 @@ export default class MovieCard extends React.Component<IProps, IState> {
                     <IconButton 
                     aria-label="review"
                     style={{marginLeft: 'auto',marginRight: -8}}
+                    onClick={this.handleExpandClick}
                     >
                         <img src={Reviews}/>
                     </IconButton>
                 </CardActions>
                 <Collapse in={this.state.expand} timeout="auto" unmountOnExit>
-                        
                 </Collapse>
             </Card>
         );
     }
 
+    handleExpandClick = () => {
+        console.log("clicked")
+        this.setState(state => ({ expand: !state.expand }));
+        this.forceUpdate
+    };
 
 }
+
+

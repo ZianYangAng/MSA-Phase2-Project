@@ -71,7 +71,7 @@ export default class MovieGrid extends React.Component<IProps, {}> {
     private selectGridTile(iD: any) {
         const { movies } = this.props
         let selectedMovie:any
-        for (let i = 0; i< movies.length; i++ ){
+        for (let i = 0; i< movies.length; i++){
             if(movies[i].id===iD){
                 selectedMovie = movies[i];
             }
