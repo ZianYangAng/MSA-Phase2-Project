@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MovieBankAPI.Models;
+using MovieBank.Models;
 
-namespace MovieBankAPI
+namespace MovieBank
 {
     public class Program
     {
@@ -25,7 +25,7 @@ namespace MovieBankAPI
 
                 try
                 {
-                    var context = services.GetRequiredService<MovieBankAPIContext>();
+                    var context = services.GetRequiredService<MovieBankContext>();
                     context.Database.Migrate();
                     SeedData.Initialize(services);
                 }

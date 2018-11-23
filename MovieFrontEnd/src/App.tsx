@@ -5,6 +5,7 @@ import MovieLogo from './video.png';
 import  FacebookLogin  from 'react-facebook-login'
 import MovieGrid from './components/MovieGrid'
 import MovieCard from './components/MovieCard'
+import ChatBot from './components/ChatBot'
 
 
 interface IState {
@@ -85,6 +86,7 @@ class App extends React.Component<{}, IState> {
 						authenticated= {this.state.authenticated}
 						/>
 					</Modal>
+					<ChatBot/>
 				</div>
 			</div>
 			<Modal open={open} onClose={this.onCloseModal}>

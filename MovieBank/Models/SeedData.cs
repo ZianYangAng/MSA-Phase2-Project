@@ -1,18 +1,18 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace MovieBankAPI.Models
+namespace MovieBank.Models
 {
-public static class SeedData
+    public static class SeedData
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new MovieBankAPIContext(
-                serviceProvider.GetRequiredService<DbContextOptions<MovieBankAPIContext>>()))
+            using (var context = new MovieBankContext(
+                serviceProvider.GetRequiredService<DbContextOptions<MovieBankContext>>()))
             {
                 // Look for any movies.
                 if (context.MovieItem.Count() > 0)
@@ -38,7 +38,15 @@ public static class SeedData
                             Uploaded = DateTime.Now.ToString(),
                             Rating = 5,
                             UID = "462779117582540"
-                        } }
+                        },
+                        new ReviewItem
+                        {
+                            Name = "Bob Ross",
+                            Review = "Greatest movie of all time",
+                            Uploaded = DateTime.Now.ToString(),
+                            Rating = 5,
+                            UID = "34"
+                        }}
                     }
                 );
                 context.SaveChanges();

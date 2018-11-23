@@ -9,21 +9,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
-using MovieBankAPI.Helpers;
-using MovieBankAPI.Models;
+using MovieBank.Helpers;
+using MovieBank.Models;
 
-namespace MovieBankAPI.Controllers
+namespace MovieBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MovieItemsController : ControllerBase
     {
-        private readonly MovieBankAPIContext _context;
+        private readonly MovieBankContext _context;
 
         private IConfiguration _configuration;
 
-
-        public MovieItemsController(MovieBankAPIContext context, IConfiguration configuration)
+        public MovieItemsController(MovieBankContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
@@ -33,7 +32,7 @@ namespace MovieBankAPI.Controllers
         [HttpGet]
         public IEnumerable<MovieItem> GetMovieItem()
         {
-            return _context.MovieItem.Include( m => m.Reviews);
+            return _context.MovieItem.Include(m => m.Reviews);
         }
 
         // GET: api/MovieItems/5
@@ -52,23 +51,33 @@ namespace MovieBankAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(movieItem);
+            var found = from m in _context.MovieItem.Include(b => b.Reviews)
+                        where m.Id == id
+                        select m;
+
+            return Ok(found);
         }
 
         // PUT: api/MovieItems/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovieItem([FromRoute] int id, [FromBody] MovieItem movieItem)
+        public async Task<IActionResult> PutMovieItem([FromRoute] int id, [FromForm] string title, [FromForm] string genre, [FromForm] int rating, [FromForm] string description, [FromForm] string director)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != movieItem.Id)
+            var movieItem = await _context.MovieItem.FindAsync(id);
+                
+            if(movieItem == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-
+            movieItem.Title = title;
+            movieItem.Genre = genre;
+            movieItem.Rating = rating;
+            movieItem.Description = description;
+            movieItem.Director = director;
             _context.Entry(movieItem).State = EntityState.Modified;
 
             try
@@ -126,14 +135,17 @@ namespace MovieBankAPI.Controllers
             return Ok(movieItem);
         }
 
-        // GET: api/Movie/Title
+        private bool MovieItemExists(int id)
+        {
+            return _context.MovieItem.Any(e => e.Id == id);
+        }
 
         [HttpGet]
         [Route("title")]
-        public async Task<List<MovieItem>> GetTagsItem([FromQuery] string title)
+        public async Task<List<MovieItem>> GetTitleItem([FromQuery] string title)
         {
-            var movies = from m in _context.MovieItem
-                        select m; //get all the movies
+            var movies = from m in _context.MovieItem.Include(b => b.Reviews)
+                         select m; //get all the movies
 
 
             if (!String.IsNullOrEmpty(title)) //make sure user gave a tag to search
@@ -249,11 +261,6 @@ namespace MovieBankAPI.Controllers
                 var extentionList = fileName.Split('.');
                 return "." + extentionList.Last(); //assumes last item is the extension 
             }
-        }
-
-        private bool MovieItemExists(int id)
-        {
-            return _context.MovieItem.Any(e => e.Id == id);
         }
     }
 }

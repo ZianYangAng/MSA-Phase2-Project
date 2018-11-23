@@ -9,6 +9,8 @@ import Rating from 'react-rating'
 import EmptyStar from './../emptystar.png'
 import Star from './../fullstar.png'
 import { IconButton } from '../../node_modules/@material-ui/core';
+import Button from '@material-ui/core/Button';
+
 
 interface IProps {
     movies: any[],
@@ -29,6 +31,10 @@ export default class MovieGrid extends React.Component<IProps, {}> {
 
     public render() {
         const { movies, userName, authenticated } = this.props
+        let suggestions = movies.map((movie:any) => ({
+            label: movie.title
+        }));
+        console.log(suggestions)
         return(
             <div className="container movie-list-wrapper">  
                 <div className="row movie-list-heading">
@@ -36,7 +42,7 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                         <input type="text" id="search-title-textbox" className="form-control" placeholder="Search By Title" />
                         <div className="input-group-append">
                             <div className="btn" onClick={this.searchTitleByVoice}><img src={MicImage}/></div>
-                            <div className="btn btn-outline-secondary search-button" onClick = {this.searchByTitle}>Search</div>
+                            <Button variant="outlined" className="btn btn-outline-secondary search-button" onClick={this.searchByTitle}> Search </Button>
                         </div>
                     </div>  
                 </div>

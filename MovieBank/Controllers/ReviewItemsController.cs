@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MovieBankAPI.Models;
+using MovieBank.Models;
 
-namespace MovieBankAPI.Controllers
+namespace MovieBank.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ReviewItemsController : ControllerBase
     {
-        private readonly MovieBankAPIContext _context;
+        private readonly MovieBankContext _context;
 
-        public ReviewItemsController(MovieBankAPIContext context)
+        public ReviewItemsController(MovieBankContext context)
         {
             _context = context;
         }
@@ -117,6 +117,36 @@ namespace MovieBankAPI.Controllers
             return Ok(reviewItem);
         }
 
+        [HttpGet]
+        [Route("revID")]
+        public async Task<List<ReviewItem>> GetTitleItem([FromQuery] int revID)
+        {
+            var reviews = from r in _context.ReviewItem
+                          where r.RevRefID == revID
+                          select r; //get all the movies
+
+
+            var returned = await reviews.ToListAsync(); //return the movies
+
+            return returned;
+        }
+
+        [HttpPost, Route("upload")]
+        public async Task<IActionResult> UploadReview([FromForm] string review, [FromForm] int refID, [FromForm] string name, [FromForm] string uID, [FromForm] int rating)
+        {
+            ReviewItem reviewItem = new ReviewItem();
+            reviewItem.RevRefID = refID;
+            reviewItem.Name = name;
+            reviewItem.Review = review;
+            reviewItem.Uploaded = DateTime.Now.ToString();
+            reviewItem.Rating = rating;
+            reviewItem.UID = uID;
+
+            _context.ReviewItem.Add(reviewItem);
+            await _context.SaveChangesAsync();
+
+            return Ok($"review uploaded");
+        }
         private bool ReviewItemExists(int id)
         {
             return _context.ReviewItem.Any(e => e.Id == id);

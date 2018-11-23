@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MovieBankAPI.Migrations
+namespace MovieBank.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -11,7 +12,7 @@ namespace MovieBankAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(nullable: true),
                     Genre = table.Column<string>(nullable: true),
                     Rating = table.Column<int>(nullable: false),
@@ -21,7 +22,7 @@ namespace MovieBankAPI.Migrations
                     Width = table.Column<string>(nullable: true),
                     Height = table.Column<string>(nullable: true),
                     Uploaded = table.Column<string>(nullable: true),
-                    UID = table.Column<int>(nullable: false)
+                    UID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -33,13 +34,13 @@ namespace MovieBankAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     RevRefID = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Review = table.Column<string>(nullable: true),
                     Uploaded = table.Column<string>(nullable: true),
                     Rating = table.Column<int>(nullable: false),
-                    UID = table.Column<int>(nullable: false)
+                    UID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

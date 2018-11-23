@@ -105,7 +105,7 @@ body{
 .search-button:hover {
   background-color: #383838;
   border-color: #1d1d1d;
-  color: white;
+  color: rgb(0, 0, 0);
 }
 
 
@@ -137,10 +137,13 @@ body{
 
 .background {
   background-image: url(filmreel.png);
+  height: 100%;
+  background-position: center;
 }
 
+
 .background-colour{
-  background: #eeeeee
+  background-image: linear-gradient(#eeeeee, white)
 }
 
 .card-background{

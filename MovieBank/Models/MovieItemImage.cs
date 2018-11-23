@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieBankAPI.Models
+namespace MovieBank.Models
 {
     public class MovieItemImage
     {
