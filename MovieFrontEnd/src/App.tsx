@@ -46,6 +46,9 @@ class App extends React.Component<{}, IState> {
 
 	public render() {
 		const { open } = this.state
+		const appInsights = require("applicationinsights");
+		appInsights.setup("af9cad94-147f-4648-a11b-ba06b05437f4");
+		appInsights.start();
 		return (
 		<div className="background">
 			<div className="header-wrapper background-block">

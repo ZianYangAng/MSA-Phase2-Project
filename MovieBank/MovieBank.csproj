@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationInsightsResourceId>/subscriptions/b65363f7-1355-41f0-853c-f46e7de61cc6/resourcegroups/MovieBankAPI/providers/microsoft.insights/components/MovieAPIInsight</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/b65363f7-1355-41f0-853c-f46e7de61cc6/resourcegroups/MovieBankAPI/providers/microsoft.insights/components/MovieAPIInsight</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.4" />
@@ -16,6 +19,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
 </Project>
