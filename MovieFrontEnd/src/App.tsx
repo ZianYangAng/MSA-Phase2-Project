@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Modal from 'react-responsive-modal';
 import './App.css';
-// import MovieDetail from './components/MovieDetail';
-// import MovieList from './components/MovieList';
 import MovieLogo from './video.png';
 import  FacebookLogin  from 'react-facebook-login'
 import MovieGrid from './components/MovieGrid'
@@ -17,7 +15,8 @@ interface IState {
 	authenticated: boolean,
 	userName:any,
 	userID:any,
-	reviews: any[]
+	reviews: any[],
+	clicked:boolean
 }
 
 class App extends React.Component<{}, IState> {
@@ -31,7 +30,8 @@ class App extends React.Component<{}, IState> {
 			uploadFileList: null,
 			userName: '',
 			userID:null,
-			reviews: []
+			reviews: [],
+			clicked:false
 		}     
 		
 		this.fetchMovies("")
@@ -54,39 +54,33 @@ class App extends React.Component<{}, IState> {
 					:""}
 					{(!this.state.authenticated) ?
 					<div className = "btn-add">
-					<FacebookLogin
-					cssClass="btnFacebook"
-					appId="208193176783412"
-					autoLoad={true}
-					fields="name,email,picture"
-					onClick={this.componentClicked}
-					callback={this.responseFacebook} />
+						<FacebookLogin
+						cssClass="btnFacebook"
+						appId="208193176783412"
+						autoLoad={true}
+						fields="name,email,picture"
+						onClick={this.componentClicked}
+						callback={this.responseFacebook} />
 					</div>
 					:""}
 				</div>
 			</div>
 			<div className="container">
-				{/* <div className="row">
-					<div className="col-7">
-						<MovieDetail currentMovie={this.state.currentMovie} userID={this.state.userID}/>
-					</div>
-					<div className="col-5">
-						<MovieList movies={this.state.movies} selectNewMovie={this.selectNewMovie} searchByTitle={this.fetchMovies}/>
-					</div>
-				</div> */}
 				<div className="row">
-				<div className="col-7">
-				<MovieGrid 
-					movies={this.state.movies} 
-					selectNewMovie={this.selectNewMovie} 
-					searchByTitle={this.fetchMovies} 
-					userName={this.state.userName}
-					authenticated={this.state.authenticated}
-				/>
-				</div>
-				<div className="col-5">
-				<MovieCard currentMovie={this.state.currentMovie} userID={this.state.userID} reviews={this.state.reviews}/>
-				</div>
+					<MovieGrid 
+						movies={this.state.movies} 
+						selectNewMovie={this.selectNewMovie} 
+						searchByTitle={this.fetchMovies} 
+						userName={this.state.userName}
+						authenticated={this.state.authenticated}
+					/>
+						<MovieCard 
+						currentMovie={this.state.currentMovie} 
+						userID={this.state.userID} 
+						reviews={this.state.reviews}
+						userName={this.state.userName}
+						authenticated= {this.state.authenticated}
+						/>
 				</div>
 			</div>
 			<Modal open={open} onClose={this.onCloseModal}>
@@ -126,8 +120,8 @@ class App extends React.Component<{}, IState> {
 		</div>
 		);
 	}
-
-	// Modal open
+	
+		// Modal open
 	private onOpenModal = () => {
 		this.setState({ open: true });
 	  };
@@ -136,6 +130,7 @@ class App extends React.Component<{}, IState> {
 	private onCloseModal = () => {
 		this.setState({ open: false });
 	};
+	
 
 	// Change selected movie
 	private selectNewMovie(newMovie: any) {

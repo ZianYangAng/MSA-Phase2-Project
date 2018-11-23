@@ -5,14 +5,17 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
-
+import Rating from 'react-rating'
+import EmptyStar from './../emptystar.png'
+import Star from './../fullstar.png'
+import { IconButton } from '../../node_modules/@material-ui/core';
 
 interface IProps {
     movies: any[],
     selectNewMovie: any,
     searchByTitle: any,
     userName: string,
-    authenticated: boolean
+    authenticated: boolean,
 }
 
 
@@ -48,9 +51,9 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                     </GridListTile>
                     :""}
                     {movies.map(movie => (   
-                            <GridListTile key={movie.id} onClick={this.selectGridTile.bind(this, movie.id)} className="grid">
+                            <GridListTile key={movie.id} onClick={this.selectGridTile.bind(this, movie.id)} className="grid" >
                                 <img src={movie.url}/>
-                                <GridListTileBar 
+                                <GridListTileBar style={{height:'auto'}}
                                 title={movie.title}
                                 subtitle={
                                 <div>
@@ -58,6 +61,16 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                                 <br/>
                                 <span>Genre: {movie.genre}</span>
                                 </div>
+                                }
+                                actionIcon={
+                                    <IconButton style={{marginLeft: 'auto',marginRight: -8}}>
+                                    <Rating 
+                                        emptySymbol={<img src={EmptyStar}/>}
+                                        fullSymbol={<img src={Star}/>}
+                                        initialRating={movie.rating} 
+                                        readonly
+                                        />
+                                    </IconButton>
                                 }
                                 />
                             </GridListTile>
@@ -80,7 +93,6 @@ export default class MovieGrid extends React.Component<IProps, {}> {
             this.props.selectNewMovie(selectedMovie)
         }
     }
-
      // Search movie by title
      private searchByTitle() {
         const textBox = document.getElementById("search-title-textbox") as HTMLInputElement

@@ -83,7 +83,7 @@ export default class MovieDetail extends React.Component<IProps, IState> {
     // Modal Open
     private onOpenModal = () => {
         this.setState({ open: true });
-	  };
+	};
     
     // Modal Close
     private onCloseModal = () => {
