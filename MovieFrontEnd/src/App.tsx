@@ -40,13 +40,14 @@ class App extends React.Component<{}, IState> {
 		this.fetchMovies = this.fetchMovies.bind(this)
 		this.uploadMovie = this.uploadMovie.bind(this)
 		this.fetchReviews = this.fetchReviews.bind(this)
+		this.onOpenCardModal = this.onOpenCardModal.bind(this)
 	}
 
 	public render() {
 		const { open } = this.state
 		return (
-		<div>
-			<div className="header-wrapper">
+		<div className="background">
+			<div className="header-wrapper background-block">
 				<div className="container header">
 					<img src={MovieLogo} height='40'/>&nbsp; Movie Bank &nbsp;
 					{(this.state.authenticated) ?
@@ -65,15 +66,17 @@ class App extends React.Component<{}, IState> {
 					:""}
 				</div>
 			</div>
-			<div className="container">
-				<div className="row">
+			<div className="container background-colour">
+				<div>
 					<MovieGrid 
+						onOpenCardModal={this.onOpenCardModal}
 						movies={this.state.movies} 
 						selectNewMovie={this.selectNewMovie} 
 						searchByTitle={this.fetchMovies} 
 						userName={this.state.userName}
 						authenticated={this.state.authenticated}
 					/>
+					<Modal open={this.state.clicked} onClose={this.onCloseCardModal} center={true} showCloseIcon={false}>
 						<MovieCard 
 						currentMovie={this.state.currentMovie} 
 						userID={this.state.userID} 
@@ -81,6 +84,7 @@ class App extends React.Component<{}, IState> {
 						userName={this.state.userName}
 						authenticated= {this.state.authenticated}
 						/>
+					</Modal>
 				</div>
 			</div>
 			<Modal open={open} onClose={this.onCloseModal}>
@@ -120,11 +124,20 @@ class App extends React.Component<{}, IState> {
 		</div>
 		);
 	}
+
+	private onOpenCardModal() {
+		console.log(this.state.clicked)
+		this.setState({clicked:true})
+	};
+
+	private onCloseCardModal = () => {
+		this.setState({clicked: false})
+	};
 	
 		// Modal open
 	private onOpenModal = () => {
 		this.setState({ open: true });
-	  };
+	};
 	
 	// Modal close
 	private onCloseModal = () => {

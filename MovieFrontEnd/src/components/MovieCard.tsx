@@ -30,8 +30,7 @@ interface IState {
     reviewOpen:boolean
     reviewEditOpen:boolean
     currentReviewID: number
-    clicked:boolean,
-    init: number
+
 }
 
 
@@ -43,16 +42,13 @@ export default class MovieCard extends React.Component<IProps, IState> {
             open: false,
             reviewOpen: false,
             reviewEditOpen:false,
-            currentReviewID: 1,
-            clicked:false,
-            init: 0
+            currentReviewID: 1
         }
     }
 
     public render() {
         const { currentMovie, reviews } = this.props
         return(
-            <Modal open={this.state.clicked} onClose={this.onCloseCardModal} showCloseIcon={false} center >
             <div>
             <Card>
                 <CardHeader 
@@ -214,7 +210,6 @@ export default class MovieCard extends React.Component<IProps, IState> {
                 </form>
             </Modal>
         </div>
-        </Modal>
         );
     }
 
@@ -224,26 +219,8 @@ export default class MovieCard extends React.Component<IProps, IState> {
                 expand: false,
             })
         }
-        
-        if(this.state.init === 0){
-            this.setState({ 
-            init: 1
-        })
-        } else if (this.state.init === 1){
-            this.setState({ 
-                init: 2
-            })
-        } else {
-            this.setState({
-                clicked:true
-            })
-        }
-
     }
     
-    private onCloseCardModal = () => {
-        this.setState({ clicked: false})
-    }
 
     handleExpandClick = () => {
         this.setState(state => ({ expand: !state.expand }));

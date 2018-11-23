@@ -132,5 +132,17 @@ body{
 }
 
 .grid:hover{
-  background: #3b5998
+  background: grey
+}
+
+.background {
+  background-image: url(filmreel.png);
+}
+
+.background-colour{
+  background: #eeeeee
+}
+
+.card-background{
+  background: #000000
 }

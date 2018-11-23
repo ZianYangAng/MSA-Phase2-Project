@@ -16,6 +16,7 @@ interface IProps {
     searchByTitle: any,
     userName: string,
     authenticated: boolean,
+    onOpenCardModal:any
 }
 
 
@@ -51,7 +52,7 @@ export default class MovieGrid extends React.Component<IProps, {}> {
                     </GridListTile>
                     :""}
                     {movies.map(movie => (   
-                            <GridListTile key={movie.id} onClick={this.selectGridTile.bind(this, movie.id)} className="grid" >
+                            <GridListTile key={movie.id} onClick={this.selectGridTile.bind(this, movie.id)} className="grid" style={{ height: 'auto' }} >
                                 <img src={movie.url}/>
                                 <GridListTileBar style={{height:'auto'}}
                                 title={movie.title}
@@ -91,6 +92,7 @@ export default class MovieGrid extends React.Component<IProps, {}> {
         }
         if (selectedMovie != null) {
             this.props.selectNewMovie(selectedMovie)
+            this.props.onOpenCardModal()
         }
     }
      // Search movie by title
